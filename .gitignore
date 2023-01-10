@@ -1,1 +1,7 @@
 .env
+db.sqlite3
+.vscode
+apis/__pycache__/
+twitter_data_pull_svc/__pycache__/
+apis/migrations/
+twitter_data_pull_svc/migrations/
