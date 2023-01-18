@@ -69,7 +69,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'twitter_data_pull_svc.wsgi.application'
+WSGI_APPLICATION = 'twitter_data_pull_svc.wsgi.app'
 
 
 # Database
