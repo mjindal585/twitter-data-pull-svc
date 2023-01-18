@@ -3,7 +3,7 @@ import os
 import tweepy
 from tweepy import OAuthHandler
 from textblob import TextBlob
-
+from operator import itemgetter
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -24,7 +24,6 @@ class TwitterClient():
                                        access_token_secret)
             # create tweepy API object to fetch tweets
             self.api = tweepy.API(self.auth)
-            print('Authenticated')
         except:
             print("Error: Authentication Failed")
  
@@ -69,11 +68,9 @@ class TwitterClient():
                 parsed_tweet['name'] = tweet.user.name
                 parsed_tweet['screen_name'] = tweet.user.screen_name
 
-                # saving sentiment of tweet
-                parsed_tweet['sentiment'] =self.get_tweet_sentiment(tweet.text)
+                # saving polarity of tweet
                 parsed_tweet['polarity'] =self.get_tweet_polarity(tweet.text)
 
- 
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
                     # if tweet has retweets, ensure 
@@ -84,10 +81,14 @@ class TwitterClient():
                     tweets.append(parsed_tweet)
 
             # return parsed tweets
-            print('Length : ' , len(tweets))
-            positive_tweets = list(filter(lambda tweet: tweet['sentiment'] == 'positive', tweets))
-            negative_tweets = list(filter(lambda tweet: tweet['sentiment'] == 'negative', tweets))
-            return tweets
+            positive_tweets = list(filter(lambda tweet: tweet['polarity'] > 0, tweets))
+            negative_tweets = list(filter(lambda tweet: tweet['polarity'] < 0, tweets))
+            top_five_positive = sorted(positive_tweets, key = itemgetter('polarity'), reverse = True)[:5]
+            top_five_negative = sorted(negative_tweets, key = itemgetter('polarity'), reverse = True)[:5]
+            return {
+                "top_five_positive": top_five_positive,
+                "top_five_negative": top_five_negative
+            }
  
         except tweepy.TweepError as e:
             # print error (if any)

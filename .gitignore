@@ -6,3 +6,12 @@ apis/__pycache__/
 twitter_data_pull_svc/__pycache__/
 apis/migrations/
 twitter_data_pull_svc/migrations/
+.vercel
+*.log
+*.pyc
+.venv 
+env/ 
+venv/ 
+ENV/ 
+env.bak/ 
+venv.bak/ 

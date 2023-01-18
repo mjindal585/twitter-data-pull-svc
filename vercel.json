@@ -1,0 +1,15 @@
+{
+    "builds": [
+      {
+        "src": "twitter_data_pull_svc/wsgi.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(.*)",
+        "dest": "twitter_data_pull_svc/wsgi.py"
+      }
+    ]
+  }
+  
