@@ -3,4 +3,3 @@ django-cors-headers==3.4.0
 djangorestframework==3.11.1
 tweepy==3.8.0
 virtualenv==16.7.9
-sqlite3==3.8.3
