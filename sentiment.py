@@ -41,6 +41,10 @@ class TwitterClient():
             return 'neutral'
         else:
             return 'negative'
+    
+    def get_tweet_polarity(self, tweet):
+        analysis = TextBlob(self.clean_tweet(tweet))
+        return analysis.sentiment.polarity
  
     def get_tweets(self, query, count=1000):
         '''
@@ -67,6 +71,8 @@ class TwitterClient():
 
                 # saving sentiment of tweet
                 parsed_tweet['sentiment'] =self.get_tweet_sentiment(tweet.text)
+                parsed_tweet['polarity'] =self.get_tweet_polarity(tweet.text)
+
  
                 # appending parsed tweet to tweets list
                 if tweet.retweet_count > 0:
@@ -79,33 +85,10 @@ class TwitterClient():
 
             # return parsed tweets
             print('Length : ' , len(tweets))
+            positive_tweets = list(filter(lambda tweet: tweet['sentiment'] == 'positive', tweets))
+            negative_tweets = list(filter(lambda tweet: tweet['sentiment'] == 'negative', tweets))
             return tweets
  
         except tweepy.TweepError as e:
             # print error (if any)
             print("Error : " + str(e))
- # creating object of TwitterClient Class
-api = TwitterClient()
-    # calling function to get tweets
-tweets = api.get_tweets(query = 'sports', count = 2000)
- 
-    # picking positive tweets from tweets
-ptweets = [tweet for tweet in tweets if tweet['sentiment'] == 'positive']
-# percentage of positive tweets
-print("\n\nPositive tweets percentage: {} %".format(100*len(ptweets)/len(tweets)))
-# picking negative tweets from tweets
-ntweets = [tweet for tweet in tweets if tweet['sentiment'] == 'negative']
-# percentage of negative tweets
-print("Negative tweets percentage: {}%".format(100*len(ntweets)/len(tweets)))
-# percentage of neutral tweets
-print("Neutral tweets percentage: {}%".format(100*(len(tweets) - len(ntweets) - len(ptweets))/len(tweets)))
- 
-# printing first 5 positive tweets
-print("\n\nPositive Tweets (First 5):")
-for tweet in ptweets[:5]:
-    print(tweet,'\n')
- 
-# printing first 5 negative tweets
-print("\n\nNegative Tweets (First 5) :")
-for tweet in ntweets[:5]:
-    print(tweet,'\n')
