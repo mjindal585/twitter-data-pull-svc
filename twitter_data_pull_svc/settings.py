@@ -25,7 +25,7 @@ SECRET_KEY = 'h74h1=a+=9z*xnwyf0d@sa1%s#r_y09atex9*_2p$bjjdkaw-f'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['twitter-data-pull-svc.vercel.app']
 
 
 # Application definition
